@@ -1,6 +1,6 @@
 import {type Scene} from "phaser";
 import {MOVE_SPEED} from "../constants.ts";
-import SpriteWithDynamicBody = Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+import Sprite = Phaser.Physics.Arcade.Sprite;
 
 
 export interface CharacterConfig {
@@ -14,20 +14,18 @@ export interface CharacterConfig {
 
 }
 
-export class Character {
+export class Character extends Sprite {
     #directionAngle: number = 0;
     public readonly speed: number;
 
-    readonly #scene: Scene;
-    readonly #sprite: SpriteWithDynamicBody;
-
-
     constructor({scene, spriteKey, speed = MOVE_SPEED, origin}: CharacterConfig) {
-        this.#scene = scene;
+        super(scene, origin?.x || 0, origin?.y || 0, spriteKey)
+
         this.speed = speed;
+        this.name = spriteKey;
 
-
-        this.#sprite = this.#scene.physics.add.sprite(0, 0, spriteKey).setOrigin(origin?.x || 0, origin?.y || 0);
+        scene.physics.world.enableBody(this);
+        scene.add.existing(this)
 
 
         // this.#scene.input.on('pointermove', (pointer: Pointer) => {
@@ -42,13 +40,6 @@ export class Character {
 
     }
 
-    get sprite() {
-        return this.#sprite;
-    }
-
-    get scene() {
-        return this.#scene;
-    }
 
     get direction() {
         return this.#directionAngle;

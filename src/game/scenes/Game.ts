@@ -11,12 +11,14 @@ export class Game extends Scene {
         super('Game');
     }
 
+
     preload() {
         this.load.spritesheet('player', 'assets/textures/TX_Player.png', {
             frameWidth: 32,
             frameHeight: 64
         });
         this.load.image('dummy_background', 'assets/textures/TX_Tileset_Grass.png');
+        this.load.image('arrow', 'assets/textures/arrow.png');
     }
 
     create() {
