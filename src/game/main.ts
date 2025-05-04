@@ -7,7 +7,7 @@ import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config: Phaser.Types.Core.GameConfig = {
-    type: AUTO,
+    type: Phaser.WEBGL,
     width: 1024,
     height: 768,
     parent: 'game-container',
@@ -19,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
         default: 'arcade',
         arcade: {
             gravity: {y: 0, x: 0},
-            // debug: true,
+            debug: true,
             debugShowBody: true,
             debugShowStaticBody: true
         }

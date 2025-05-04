@@ -45,6 +45,8 @@ export class Player extends Character {
             repeat: 0
         });
 
+        this.z = 50;
+
         //TEST
         let shootInterval: number | null = null;
 
@@ -139,6 +141,7 @@ export class Player extends Character {
 
     handleUpdate() {
         this.handleMovement();
+        this.scene.children.bringToTop(this)
     }
 
 }
