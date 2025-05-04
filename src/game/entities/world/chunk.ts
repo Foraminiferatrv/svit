@@ -46,13 +46,11 @@ export class Chunk {
                 const tileY = (this.y * (this.chunkSize * this.tileSize)) + (y * this.tileSize);
 
 
-                const noise = new Noise(this.scene.seed)
-                console.log(noise.perlin2(tileX / 100, tileY / 100))
+                // const noise = new Noise(this.scene.seed)
 
 
-                const perlinValue = noise.perlin2(tileX / 100, tileY / 100)
-
-                // console.log({tileX, tileY, perlinValue})
+                const perlinValue = this.scene.noise.perlin2(tileX / 100, tileY / 100)
+                console.log({tileX, tileY, perlinValue})
 
                 let key = "";
                 let animationKey = "";

@@ -5,6 +5,7 @@ import SpriteGrass from 'assets/textures/world/sprGrass.png'
 import SandSprite from 'assets/textures/world/sprSand.png'
 import WaterSprite from 'assets/textures/world/sprWater.png'
 import {Chunk} from "../entities/world/chunk.ts";
+import {Noise} from "noisejs";
 
 
 export class Game extends Scene {
@@ -18,7 +19,7 @@ export class Game extends Scene {
     chunks: Chunk[];
     seed: number;
     // chunks: Phaser.GameObjects.Group;
-    // noise: NoiseFunction2D;
+    noise: Noise;
 
     constructor() {
         super('Game');
@@ -55,10 +56,13 @@ export class Game extends Scene {
         })
 
 
-        this.chunkSize = 6; //tiles
+        this.chunkSize = 8; //tiles
         this.tileSize = 16; //px
         this.cameraSpeed = 10;
         this.chunks = [];
+
+        this.seed = 499;
+        this.noise = new Noise(this.seed);
         // this.chunks = this.add.group([]);
 
     }
@@ -67,7 +71,6 @@ export class Game extends Scene {
         //Camera
 
         // this.seed = Math.random();
-        this.seed = 499;
 
 
         this.camera = this.cameras.main;
@@ -87,6 +90,7 @@ export class Game extends Scene {
 
     update() {
         this.player.handleUpdate();
+
 
         //Chunks
         let chunkPositionX = (this.chunkSize * this.tileSize) * Math.round(this.player.x / (this.chunkSize * this.tileSize));
@@ -124,5 +128,6 @@ export class Game extends Scene {
             }
         }
 
+        console.log("Chunks", this.chunks)
     }
 }
