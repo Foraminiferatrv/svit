@@ -2,7 +2,7 @@ import {Noise} from 'noisejs';
 // import {createNoise2D, type NoiseFunction2D} from 'simplex-noise';
 
 import Group = Phaser.GameObjects.Group;
-import {Game} from "../../scenes/Game.ts";
+import {Game} from "../../scenes/game.ts";
 
 class GeneratedTile extends Phaser.GameObjects.Sprite {
     constructor(scene: Game, x: number, y: number, key: string) {
@@ -14,7 +14,7 @@ class GeneratedTile extends Phaser.GameObjects.Sprite {
 }
 
 
-export class Chunk {
+class Chunk {
     scene: Game;
     x: number;
     y: number;
@@ -50,7 +50,6 @@ export class Chunk {
 
 
                 const perlinValue = this.scene.noise.perlin2(tileX / 100, tileY / 100)
-                console.log({tileX, tileY, perlinValue})
 
                 let key = "";
                 let animationKey = "";
@@ -85,7 +84,7 @@ export class Chunk {
     load() {
         if (!this.isLoaded) {
             this.generateTiles();
-            console.log("LOADed")
+
         }
     }
 

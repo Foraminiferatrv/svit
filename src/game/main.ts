@@ -1,4 +1,4 @@
-import {Game as MainGame} from './scenes/Game';
+import {Game as MainGame} from './scenes/game.ts';
 
 import {AUTO, Game} from 'phaser';
 import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
