@@ -3,38 +3,25 @@ import {Player} from "../characters/player.ts";
 
 import SpriteGrass from 'assets/textures/world/sprGrass.png'
 import SandSprite from 'assets/textures/world/sprSand.png'
+import TerrainSprite from 'assets/textures/world/terrain.png'
 import WaterSprite from 'assets/textures/world/sprWater.png'
 import {Chunk} from "../entities/world/chunk.ts";
-import {Noise} from "noisejs";
+import {World} from "../entities/world/world.ts";
+import Tile = Phaser.Tilemaps.Tile;
 
 
 export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     player: Player;
-
     cameraSpeed: number;
-    chunkSize: number;
     tileSize: number;
-    chunks: Chunk[];
     seed: number;
-    // chunks: Phaser.GameObjects.Group;
-    noise: Noise;
+    world: World;
+
 
     constructor() {
         super('Game');
-    }
-
-    //TODO: Add to World class
-    getChunk(x: number, y: number) {
-        let chunk: Chunk | null = null;
-
-        for (let i = 0; i < this.chunks.length; i++) {
-            if (this.chunks[i].x == x && this.chunks[i].y === y) {
-                chunk = this.chunks[i]
-            }
-        }
-        return chunk
     }
 
 
@@ -49,6 +36,7 @@ export class Game extends Scene {
         //Terrain
         this.load.image("grass", SpriteGrass)
         this.load.image("sand", SandSprite)
+        this.load.image("terrain", TerrainSprite);
 
         this.load.spritesheet("water", WaterSprite, {
             frameWidth: 16,
@@ -56,14 +44,10 @@ export class Game extends Scene {
         })
 
 
-        this.chunkSize = 8; //tiles
         this.tileSize = 16; //px
         this.cameraSpeed = 10;
-        this.chunks = [];
 
         this.seed = 499;
-        this.noise = new Noise(this.seed);
-        // this.chunks = this.add.group([]);
 
     }
 
@@ -85,49 +69,37 @@ export class Game extends Scene {
             repeat: -1
         });
 
-        this.player = new Player({scene: this, spriteKey: "player"})
+
+        this.world = new World({
+            game: this,
+            tileSize: this.tileSize,
+            seed: 507,
+            tileMapScale: 100,
+        });
+
+
+        this.player = new Player({scene: this, spriteKey: "player", speed: 1000})
+
+        // const spawnTile = this.world.tileMap.getTileAt(this.player.x, this.player.y);
+        // if (spawnTile?.index === 2) {
+        //     const closestGrass = this.world.tileMap.findByIndex(3)
+        //     this.player.x = closestGrass?.x || this.player.x;
+        //     this.player.y = closestGrass?.y || this.player.x;
+        //
+        // }
+
+        // console.log({spawnTile, closestGrass, map: this.world.tileMap.findByIndex(3)})
+
     }
 
     update() {
         this.player.handleUpdate();
+        console.log(this.player.x.toFixed(), this.player.y.toFixed())
+        const pos = this.world.tileMap.getTileAt(this.player.x?.toFixed(), this.player.y?.toFixed())
+        console.log({pos: pos})
 
+        // this.generateTiles()
 
-        //Chunks
-        let chunkPositionX = (this.chunkSize * this.tileSize) * Math.round(this.player.x / (this.chunkSize * this.tileSize));
-        let chunkPositionY = (this.chunkSize * this.tileSize) * Math.round(this.player.y / (this.chunkSize * this.tileSize));
-
-        chunkPositionX = chunkPositionX / this.chunkSize / this.tileSize;
-        chunkPositionY = chunkPositionY / this.chunkSize / this.tileSize;
-
-        //Create chunks around player chunk position if they don't exist
-        for (let x = chunkPositionX - 2; x < chunkPositionX + 2; x++) {
-            for (let y = chunkPositionY - 2; y < chunkPositionY + 2; y++) {
-                const existingChunk = this.getChunk(x, y);
-
-                if (!existingChunk) {
-                    this.chunks.push(new Chunk(this, x, y))
-                }
-            }
-        }
-
-        //Loading/unloading chunks:
-        for (let i = 0; i < this.chunks.length; i++) {
-            let chunk = this.chunks[i];
-
-            if (chunk) {
-                if (Phaser.Math.Distance.Between(
-                    chunkPositionX,
-                    chunkPositionY,
-                    chunk.x,
-                    chunk.y,
-                ) < 3) {
-                    chunk.load();
-                } else {
-                    // chunk.unload();
-                }
-            }
-        }
-
-        console.log("Chunks", this.chunks)
     }
+
 }
