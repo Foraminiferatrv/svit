@@ -73,7 +73,7 @@ export class Game extends Scene {
         this.world = new World({
             game: this,
             tileSize: this.tileSize,
-            seed: 507,
+            seed: 500,
             tileMapScale: 100,
         });
 
