@@ -3,7 +3,7 @@ import {Player} from "../characters/player.ts";
 
 import SpriteGrass from 'assets/textures/world/sprGrass.png'
 import SandSprite from 'assets/textures/world/sprSand.png'
-import TerrainSprite from 'assets/textures/world/terrain.png'
+import TerrainAtlas from 'assets/textures/world/terrain-atlas.png'
 import WaterSprite from 'assets/textures/world/sprWater.png'
 import {Chunk} from "../entities/world/chunk.ts";
 import {World} from "../entities/world/world.ts";
@@ -27,8 +27,8 @@ export class Game extends Scene {
 
     preload() {
         this.load.spritesheet('player', 'assets/textures/TX_Player.png', {
-            frameWidth: 32,
-            frameHeight: 64
+            frameWidth: 16,
+            frameHeight: 32
         });
         this.load.image('dummy_background', 'assets/textures/TX_Tileset_Grass.png');
         this.load.image('arrow', 'assets/textures/arrow.png');
@@ -36,7 +36,7 @@ export class Game extends Scene {
         //Terrain
         this.load.image("grass", SpriteGrass)
         this.load.image("sand", SandSprite)
-        this.load.image("terrain", TerrainSprite);
+        this.load.image("terrain", TerrainAtlas);
 
         this.load.spritesheet("water", WaterSprite, {
             frameWidth: 16,
@@ -47,7 +47,7 @@ export class Game extends Scene {
         this.tileSize = 16; //px
         this.cameraSpeed = 10;
 
-        this.seed = 499;
+        this.seed = 49;
 
     }
 
@@ -95,8 +95,8 @@ export class Game extends Scene {
     update() {
         this.player.handleUpdate();
         console.log(this.player.x.toFixed(), this.player.y.toFixed())
-        const pos = this.world.tileMap.getTileAt(this.player.x?.toFixed(), this.player.y?.toFixed())
-        console.log({pos: pos})
+        // const pos = this.world.tileMap.getTileAt(this.player.x?.toFixed(), this.player.y?.toFixed())
+        // console.log({pos: pos})
 
         // this.generateTiles()
 

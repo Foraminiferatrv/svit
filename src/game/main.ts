@@ -1,7 +1,7 @@
 import {Game as MainGame} from './scenes/Game';
 
-import {AUTO, Game} from 'phaser';
-import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
+import {Game} from 'phaser';
+import Zoom = Phaser.Scale.Zoom;
 
 
 //  Find out more information about the Game Config at:
@@ -11,6 +11,9 @@ const config: Phaser.Types.Core.GameConfig = {
     width: 1024,
     height: 768,
     parent: 'game-container',
+    scale: {
+        zoom: Zoom.ZOOM_4X
+    },
     backgroundColor: '#028af8',
     plugins: {
         global: []

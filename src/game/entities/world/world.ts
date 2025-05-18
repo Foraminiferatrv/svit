@@ -46,19 +46,20 @@ export class World {
                 if (perlinValue < -0.2) {
                     row.push(0)
                 } else if (perlinValue >= -0.2 && perlinValue < 0.1) {
-                    row.push(2)
+                    row.push(1)
                 } else if (perlinValue >= 0.1) {
-                    row.push(3)
+                    row.push(2)
                 }
             }
             mapData.push(row)
         }
 
-        this.tileMap = this.game.make.tilemap({data: mapData, tileHeight: this.tileSize, tileWidth: this.tileSize});
+        this.tileMap = this.game.make.tilemap({data: mapData, tileHeight: this.tileSize, tileWidth: this.tileSize,});
 
-        const tileSet = this.tileMap.addTilesetImage("terrain");
+        const tileSet = this.tileMap.addTilesetImage("terrain", "terrain", this.tileSize, this.tileSize, 0,3);
         if (tileSet) {
-            const layer = this.tileMap.createLayer(0, tileSet, worldStart, worldStart);
+            this.tileMap.createLayer(0, tileSet, worldStart * this.tileSize, worldStart * this.tileSize);
+            // this.tileMap.setCollisionBetween()
         }
 
     }

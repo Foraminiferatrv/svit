@@ -25,6 +25,10 @@ export class Player extends Character {
         this.setOrigin(0, 0)
         this.setInteractive();
 
+        this.on("collisionActive", () => {
+            console.log("collide")
+        })
+
         this.scene.anims.create({
             key: 'down',
             frames: this.scene.anims.generateFrameNumbers('player', {start: 0, end: 0}),
